@@ -1,0 +1,27 @@
+{
+    "name": "presently-server",
+    "version": "0.0.0",
+    "description": "The back-end code for Presently.",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "node src/index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/PresentlySlides/server.git"
+    },
+    "author": "Presently",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/PresentlySlides/server/issues"
+    },
+    "homepage": "https://github.com/PresentlySlides/server#readme",
+    "dependencies": {
+        "chalk": "^5.6.2",
+        "cors": "^2.8.5",
+        "express": "^5.1.0",
+        "http": "^0.0.1-security",
+        "socket.io": "^4.8.1"
+    },
+    "type": "module"
+}
