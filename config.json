@@ -1,3 +1,8 @@
 {
-    "port": 3000
+    "port": 3000,
+    "about": {
+        "running": "PresentlySlides",
+        "protocolVersion": 1,
+        "gitRepository": "https://github.com/PresentlySlides/server"
+    }
 }

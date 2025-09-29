@@ -3,6 +3,7 @@ import http from "http";
 import cors from "cors";
 import Logger from "./Logger.js";
 import WebSocketManager from "./WebSocketManager.js";
+import config from "../config.json" with { type: "json" };
 
 class HTTPManager {
     constructor(corsOptions = {origin: true, credentials: true}) {
@@ -17,7 +18,7 @@ class HTTPManager {
 
     initiateEndpoints() {
         this.app.get("/", (_, res) => {
-            res.type("text").send("presentlyslides");
+            res.json(config.about);
         });
     }
 
