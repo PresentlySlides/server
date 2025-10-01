@@ -1,7 +1,9 @@
 import chalk from "chalk";
 
 class Logger {
-    constructor(channel) {
+    constructor(server, channel = "LOGR") {
+        this.server = server;
+
         this.channel = channel;
         this.messages = 0;
     }
@@ -22,30 +24,40 @@ class Logger {
         );
 
         this.messages++;
+
+        return this.messages - 1;
     }
 
     log(message = "", level = chalk.white.bold("NONE")) {
-        message.split("\n").forEach(line => this.raw(line, level));
+        try {
+            message.split("\n").forEach(line => this.raw(line, level));
+            return true;
+        } catch {
+            this.error("Logger error: Could not log message.");
+            return null;
+        }
     }
 
     debug(message) {
-        this.log(message, chalk.blue.bold("DBUG"));
+        if (this.server.debugMode) return this.log(message, chalk.blue.bold("DBUG"));
+        return false;
     }
     info(message) {
-        this.log(message, chalk.green.bold("INFO"));
+        return this.log(message, chalk.green.bold("INFO"));
     }
     warn(message) {
-        this.log(chalk.bold(message), chalk.bgYellow.bold("WARN"));
+        return this.log(chalk.bold(message), chalk.bgYellow.bold("WARN"));
     }
     error(message) {
-        this.log(chalk.red(message), chalk.red.bold("EROR"));
+        return this.log(chalk.red(message), chalk.red.bold("EROR"));
     }
     fatal(message) {
-        this.log(chalk.bgRed.bold(message), chalk.bgRed.bold("FATL"));
+        return this.log(chalk.bgRed.bold(message), chalk.bgRed.bold("FATL"));
     }
 
     blank(amount = 1) {
         process.stdout.write("\n".repeat(amount));
+        return true;
     }
 }
 

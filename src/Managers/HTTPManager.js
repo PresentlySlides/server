@@ -1,17 +1,19 @@
 import express from "express";
 import http from "http";
 import cors from "cors";
-import Logger from "./Logger.js";
+import Logger from "../Utility/Logger.js";
 import WebSocketManager from "./WebSocketManager.js";
-import config from "../config.json" with { type: "json" };
+import config from "../../config.json" with { type: "json" };
 
 class HTTPManager {
-    constructor(corsOptions = {origin: true, credentials: true}) {
-        this.logger = new Logger("HTTP");
+    constructor(server, corsOptions = {origin: true, credentials: true}) {
+        this.server = server;
+
+        this.logger = new Logger(this.server, "HTTP");
 
         this.corsOptions = corsOptions;
         this.app = express();
-        this.server = http.createServer(this.app);
+        this.http = http.createServer(this.app);
 
         this.app.use(cors(this.corsOptions));
     }
@@ -23,12 +25,11 @@ class HTTPManager {
     }
 
     startWebSocket() {
-        this.websocket = new WebSocketManager(this.server, this.corsOptions);
-        this.websocket.addListeners();
+        this.server.webSocketManager.addListeners();
     }
 
     listen(port = 3000) {
-        this.server.listen(port, () => {
+        this.http.listen(port, () => {
             this.logger.info(`Server is running on port ${port}`);
         });
     }

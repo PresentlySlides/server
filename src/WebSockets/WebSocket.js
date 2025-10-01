@@ -1,13 +1,13 @@
 class WebSocket {
-    constructor(socket, type, logger) {
+    constructor(server, socket, type, logger) {
+        this.server = server;
+
         this.logger = logger;
 
         this.socket = socket.of(`/${type}`);
 
         this.socket.on("connection", s => this.onConnect(s));
     }
-
-    onConnect(_) {}
 }
 
 export default WebSocket;
