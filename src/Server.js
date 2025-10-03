@@ -1,5 +1,6 @@
 import HTTPManager from "./Managers/HTTPManager.js";
 import WebSocketManager from "./Managers/WebSocketManager.js";
+import RoomManager from "./Managers/RoomManager.js";
 import Logger from "./Utility/Logger.js";
 import config from "../config.json" with { type: "json" };
 
@@ -9,6 +10,7 @@ class Server {
         
         this.httpManager = new HTTPManager(this);
         this.webSocketManager = new WebSocketManager(this);
+        this.roomManager = new RoomManager(this);
         
         this.debugMode = debugMode;
         if (this.debugMode) this.logger.debug("Debug mode is enabled.");
