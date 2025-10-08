@@ -7,6 +7,14 @@ class Room {
         this.users = new Set();
     }
 
+    generateJoinCode(n = 0) {
+        const code = crypto.randomInt(0, 1000000).toString().padStart(6, "0");
+        const response = this.server.roomManager.validateJoinCode(this, code);
+        if (!response && n >= 5) return false;
+        if (!response) return this.generateJoinCode(n + 1);
+        return code;
+    }
+
     join(socket) {
         socket.join(this.id);
         this.users.add(socket);

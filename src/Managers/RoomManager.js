@@ -8,6 +8,20 @@ class RoomManager {
         this.logger = new Logger(this.server, "ROOM");
 
         this.rooms = new Map();
+        this.joinCodes = new Map();
+    }
+
+    validateJoinCode(room, code) {
+        if (this.joinCodes.get(code)) return false;
+
+        this.joinCodes.set(code, room.id);
+
+        setTimeout(() => {
+            this.joinCodes.delete(code);
+            room.onJoinCodeExpire(code);
+        }, 5 * 60 * 1000); // 5 minutes
+
+        return true;
     }
 
     createRoom() {
