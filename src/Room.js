@@ -18,6 +18,7 @@ class Room {
     join(socket) {
         socket.join(this.id);
         this.users.add(socket);
+        socket.data.room = this.id;
         return this;
     }
 
@@ -25,6 +26,7 @@ class Room {
         socket.leave(this.id);
         this.users.delete(socket);
         if (this.users.size == 0) this.delete();
+        socket.data.room = null;
         return true;
     }
 

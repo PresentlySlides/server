@@ -1,38 +1,57 @@
 class WebSocket {
-    constructor(server, socket, type, logger) {
+    constructor(server, io, type, logger) {
         this.server = server;
 
         this.logger = logger;
 
-        this.socket = socket.of(`/${type}`);
+        this.io = io.of(`/${type}`);
 
-        this.socket.on("connection", s => {
+        this.io.use((s, next) => this.handleRoom(s, next));
+        this.io.use((s, next) => this.handleAuth(s, next));
+
+        this.permissions = new Set();
+
+        this.io.on("connection", s => {
             this.onConnect(s);
             this.global_onConnect(s);
         });
     }
 
-    global_onConnect(s) {
-        s.on("create room", callback => {
+    onConnect(_) {}
+    global_onConnect(socket) {
+        socket.emit("room", socket.data.room);
+    }
+
+    handleRoom(socket, next) {
+        const roomRq = socket.handshake.auth.room;
+
+        if (!this.permissions.has("Connect")) return next(new Error("No permission to connect"));
+
+        if (!roomRq) return next(new Error("[DISCONNECTED] No room data provided"));
+
+        if (roomRq.action == "create") {
+            if (!this.permissions.has("CreateRooms"))
+                return next(new Error("[DISCONNECTED] No permission to create rooms"));
+
             const room = this.server.roomManager.createRoom();
-            s.join(room.id);
-            callback({success: true, roomId: room.id});
-        });
+            room.join(socket);
+            next();
+        } else if (roomRq.action == "join") {
+            if (!this.permissions.has("JoinRooms"))
+                return next(new Error("[DISCONNECTED] No permission to join rooms"));
 
-        s.on("join room", (data, callback) => {
             const room = this.server.roomManager.rooms.get(
-                this.server.roomManager.joinCodes.get(data.roomId) || data.roomId
+                this.server.roomManager.joinCodes.get(roomRq.roomId) || roomRq.roomId
             );
-            if (room) {
-                room.join(s);
-                callback({success: true});
-            } else callback({success: false, error: "Room not found"});
-        });
 
-        s.on("leave room", callback => {
-            this.server.roomManager.leaveUser(s);
-            callback({success: true});
-        });
+            if (!room) return next(new Error("[DISCONNECTED] Room not found"));
+            room.join(socket);
+            next();
+        }
+    }
+
+    handleAuth(_, next) {
+        next();
     }
 }
 

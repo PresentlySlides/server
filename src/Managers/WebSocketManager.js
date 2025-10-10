@@ -2,6 +2,7 @@ import {Server} from "socket.io";
 import Logger from "../Utility/Logger.js";
 import WebSocket from "../WebSockets/WebSocket.js";
 import UserWebSocket from "../WebSockets/UserWebSocket.js";
+import PresenterWebSocket from "../WebSockets/PresenterWebSocket.js";
 
 class WebSocketManager {
     constructor(server) {
@@ -18,6 +19,7 @@ class WebSocketManager {
         this.logger.info("Adding WebSocket listeners...");
         this.WebSocket = new WebSocket(this.server, this.io, "", this.logger);
         this.UserWebSocket = new UserWebSocket(this.server, this.io, this.logger);
+        this.PresenterWebSocket = new PresenterWebSocket(this.server, this.io, this.logger);
     }
 }
 
