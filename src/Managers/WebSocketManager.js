@@ -13,13 +13,16 @@ class WebSocketManager {
         this.io = new Server(server.httpManager.http, {
             cors: this.server.httpManager.corsOptions
         });
+        
+        this.websockets = new Map();
     }
 
     addListeners() {
         this.logger.info("Adding WebSocket listeners...");
-        this.WebSocket = new WebSocket(this.server, this.io, "", "", this.logger);
         this.UserWebSocket = new UserWebSocket(this.server, this.io, this.logger);
         this.PresenterWebSocket = new PresenterWebSocket(this.server, this.io, this.logger);
+        this.websockets.set("user", this.UserWebSocket);
+        this.websockets.set("presenter", this.PresenterWebSocket);
     }
 }
 

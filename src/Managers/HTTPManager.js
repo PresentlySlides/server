@@ -19,8 +19,18 @@ class HTTPManager {
     }
 
     initiateEndpoints() {
-        this.app.get("/", (_, res) => {
+        this.app.get(["/", "/api"], (_, res) => {
             res.json(config.about);
+        });
+
+        this.app.get("/api/websockets", (_, res) => {
+            res.json([...this.server.webSocketManager.websockets.keys()]);
+        });
+
+        this.app.get("/api/websockets/:ws/permissions", (req, res) => {
+            const websocket = this.server.webSocketManager.websockets.get(req.params.ws);
+            if (!websocket) return res.status(404).json({"status": 404, "error": "WebSocket not found"});
+            res.json([...websocket.permissions]);
         });
     }
 
