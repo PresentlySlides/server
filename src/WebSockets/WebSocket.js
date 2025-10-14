@@ -1,15 +1,18 @@
+import PermissionsCodec from "../Utility/PermissionsCodec.js";
+
 class WebSocket {
-    constructor(server, io, type, logger) {
+    constructor(server, io, type, permissions = "", logger) {
         this.server = server;
 
         this.logger = logger;
 
         this.io = io.of(`/${type}`);
-
+        
         this.io.use((s, next) => this.handleRoom(s, next));
         this.io.use((s, next) => this.handleAuth(s, next));
-
-        this.permissions = new Set();
+        
+        this.permsCodec = new PermissionsCodec();
+        this.permissions = this.permsCodec.decode(permissions);
 
         this.io.on("connection", s => {
             this.onConnect(s);

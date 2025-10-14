@@ -2,9 +2,7 @@ import WebSocket from "./WebSocket.js";
 
 class UserWebSocket extends WebSocket {
     constructor(server, io, logger) {
-        super(server, io, "user", logger);
-
-        this.permissions = new Set(["Connect", "JoinRooms"]);
+        super(server, io, "user", "-S-R", logger);
     }
 }
 

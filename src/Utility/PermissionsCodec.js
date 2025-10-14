@@ -32,9 +32,11 @@ class PermissionsCodec {
         return string;
     }
 
-    decode(string) {
+    decodeSeparated(string) {
         let server = new Set();
         let room = new Set();
+
+        if (string == "") return {server, room};
 
         let groups = string.match(/.{1,2}/g);
 
@@ -77,6 +79,17 @@ class PermissionsCodec {
         });
 
         return {server, room};
+    }
+
+    decode(string) {
+        const decode = this.decodeSeparated(string);
+
+        let response = new Set();
+
+        [...decode.server].forEach(i => response.add(`Server/${i}`));
+        [...decode.room].forEach(i => response.add(`Room/${i}`));
+
+        return response;
     }
 
     flipObject(obj) {
