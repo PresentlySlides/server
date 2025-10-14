@@ -1,0 +1,26 @@
+{
+    "server": {
+        "Connect": "CN",
+        "JoinRooms": "JR",
+        "CreateRooms": "CR",
+        "ViewStatistics": "VS",
+        "ViewAllRoomData": "VR",
+        "ManageAllRooms": "MR",
+        "DeleteAllRooms": "DR"
+    },
+    "room": {
+        "JoinRoom": "JR",
+        "AnswerInteractiveElements": "AI",
+        "ChangeSlide": "CS",
+        "CreateInteractiveElements": "CI",
+        "ChangePacingMode": "CP",
+        "ManagePermissions": "MP",
+        "ManageUsernames": "MU",
+        "KickUser": "KU",
+        "DeleteRoom": "DU"
+    },
+    "_scopedef": {
+        "server": "S",
+        "room": "R"
+    }
+}
