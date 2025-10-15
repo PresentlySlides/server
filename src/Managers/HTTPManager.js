@@ -32,6 +32,10 @@ class HTTPManager {
             if (!websocket) return res.status(404).json({"status": 404, "error": "WebSocket not found"});
             res.json([...websocket.permissions]);
         });
+
+        this.app.get(/.*/, (_, res) => {
+            res.status(404).json({"status": 404, "error": "Unrecognized endpoint"})
+        })
     }
 
     startWebSocket() {
