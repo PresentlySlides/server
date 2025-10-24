@@ -1,5 +1,5 @@
-import Logger from "../Utility/Logger.js";
-import Room from "../Room.js";
+import Logger from "../../Utility/Logger.js";
+import Room from "../../Room.js";
 
 class RoomManager {
     constructor(server) {

@@ -1,8 +1,8 @@
 import {Server} from "socket.io";
-import Logger from "../Utility/Logger.js";
-import WebSocket from "../WebSockets/WebSocket.js";
-import UserWebSocket from "../WebSockets/UserWebSocket.js";
-import PresenterWebSocket from "../WebSockets/PresenterWebSocket.js";
+import Logger from "../../Utility/Logger.js";
+import WebSocket from "../../WebSockets/WebSocket.js";
+import UserWebSocket from "../../WebSockets/UserWebSocket.js";
+import PresenterWebSocket from "../../WebSockets/PresenterWebSocket.js";
 
 class WebSocketManager {
     constructor(server) {
@@ -13,7 +13,7 @@ class WebSocketManager {
         this.io = new Server(server.httpManager.http, {
             cors: this.server.httpManager.corsOptions
         });
-        
+
         this.websockets = new Map();
     }
 

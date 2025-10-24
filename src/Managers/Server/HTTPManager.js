@@ -1,9 +1,9 @@
 import express from "express";
 import http from "http";
 import cors from "cors";
-import Logger from "../Utility/Logger.js";
+import Logger from "../../Utility/Logger.js";
 import WebSocketManager from "./WebSocketManager.js";
-import config from "../../config.json" with { type: "json" };
+import config from "../../../config.json" with { type: "json" };
 
 class HTTPManager {
     constructor(server, corsOptions = {origin: true, credentials: true}) {

@@ -1,6 +1,6 @@
-import HTTPManager from "./Managers/HTTPManager.js";
-import WebSocketManager from "./Managers/WebSocketManager.js";
-import RoomManager from "./Managers/RoomManager.js";
+import HTTPManager from "./Managers/Server/HTTPManager.js";
+import WebSocketManager from "./Managers/Server/WebSocketManager.js";
+import RoomManager from "./Managers/Server/RoomManager.js";
 import Logger from "./Utility/Logger.js";
 import config from "../config.json" with { type: "json" };
 
